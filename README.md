@@ -47,8 +47,8 @@ To run BreakoutGL, you'll need Python and the following libraries:
 ### From source
 1.  **Clone the repository (if you haven't already):**
     ```bash
-    git clone https://github.com/g1augusto/breakout # Replace <your-repository-url> with the actual URL
-    cd breakout # Replace <your-repository-directory> with the folder name
+    git clone https://github.com/g1augusto/breakout 
+    cd breakout 
     ```
 
 2.  **Install the dependencies:**
