@@ -10,6 +10,9 @@ jobs:
   build-and-release:
     name: Build and Release Executable (Windows Nuitka)
     runs-on: windows-latest # Or windows-latest, macos-latest
+    defaults:
+        run:
+            shell: bash # Explicitly use bash shell for easier multi-line commands with backslash
 
     steps:
       - name: Checkout code
@@ -24,6 +27,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install nuitka
+          pip install imageio
           # If you have a requirements.txt for your game's Python libraries:
           pip install -r requirements.txt
 
