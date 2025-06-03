@@ -1,0 +1,77 @@
+name: Python Nuitka Release
+
+# Controls when the workflow will run
+on:
+  push:
+    tags: # Trigger on new tags (e.g., v1.0, v0.2.1)
+      - 'v*' # Matches tags like v1.0, v2.3.4-alpha
+
+jobs:
+  build-and-release:
+    name: Build and Release Executable (Windows Nuitka)
+    runs-on: windows-latest # Or windows-latest, macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.2' # Specify your desired Python version
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install nuitka
+          # If you have a requirements.txt for your game's Python libraries:
+          pip install -r requirements.txt
+
+      - name: Compile with Nuitka
+        run: |
+          python -m nuitka breakoutgl.py \
+            --windows-icon-from-ico=assets/breakout_window_icon.png \
+            --include-data-dir=assets=assets \
+            --include-data-dir=levels=levels \
+            --standalone \
+            --include-package-data=pygame \
+            --output-dir=nuitka_dist \
+            --onefile \
+            --company-name="Giovanni Augusto" \
+            --product-name=BreakoutGL \
+            --file-version="${{ github.ref_name }}"
+          #python -m nuitka --onefile --output-dir=dist your_main_script.py # Replace 'your_main_script.py'
+          # Add any other Nuitka options you need
+          # For example, to name the output file:
+          # python -m nuitka --onefile --output-dir=dist --output-filename=BreakoutGame your_main_script.py
+
+      - name: Determine Asset Name and Path
+        id: asset_info
+        run: |
+          # For Linux (default for ubuntu-latest)
+          #echo "ASSET_PATH=dist/your_main_script.bin" >> $GITHUB_ENV # Nuitka adds .bin on Linux by default for onefile
+          #echo "ASSET_NAME=BreakoutGame-Linux" >> $GITHUB_ENV
+          # If you used --output-filename=BreakoutGame
+          # echo "ASSET_PATH=dist/BreakoutGame.bin" >> $GITHUB_ENV
+
+          # For Windows (if runs-on: windows-latest)
+          echo "ASSET_PATH=nuitka_dist\breakoutgl.exe" >> $GITHUB_ENV
+          echo "ASSET_NAME=breakoutgl.exe" >> $GITHUB_ENV
+
+          # For macOS (if runs-on: macos-latest)
+          # echo "ASSET_PATH=dist/your_main_script.app" >> $GITHUB_ENV # Or .bin if not creating an app bundle
+          # echo "ASSET_NAME=BreakoutGame-macOS.zip" >> $GITHUB_ENV # Often zipped for macOS
+          # You might need to zip the .app bundle: zip -r dist/BreakoutGame-macOS.zip dist/your_main_script.app
+
+      - name: Create Release and Upload Asset
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: ${{ env.ASSET_PATH }}
+          # You can customize the release name and body here
+          # name: Release ${{ github.ref_name }}
+          # body: |
+          #   New release of the Breakout game.
+          #   See CHANGELOG.md for details.
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This is automatically provided by GitHub
