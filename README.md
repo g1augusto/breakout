@@ -4,6 +4,10 @@
 
 BreakoutGL is a classic Breakout arcade game implemented in Python. It leverages **ModernGL** for efficient OpenGL rendering and **Pygame** for window creation, event handling, and audio. The project is inspired by tutorials from [LearnOpenGL.com](https://learnopengl.com/) and includes features like multiple levels, power-ups, particle effects, and post-processing shaders.
 
+| Start game | Confuse effect | Chaos effect |
+|---|---|---|
+|![Breakout demo](README/BreakoutIntro.gif)|![Breakout demo](README/BreakoutConfuse.gif)|![Breakout demo](README/BreakoutChaos.gif)
+
 ## Features ✨
 
 * Classic Breakout gameplay mechanics.
@@ -25,6 +29,7 @@ BreakoutGL is a classic Breakout arcade game implemented in Python. It leverages
 * Player lives system.
 * Embedded GLSL shaders for sprites, particles, text, and post-processing.
 
+
 ---
 
 ## Dependencies 🛠️
@@ -39,10 +44,11 @@ To run BreakoutGL, you'll need Python and the following libraries:
 
 ## Installation ⚙️
 
+### From source
 1.  **Clone the repository (if you haven't already):**
     ```bash
-    git clone <your-repository-url> # Replace <your-repository-url> with the actual URL
-    cd <your-repository-directory> # Replace <your-repository-directory> with the folder name
+    git clone https://github.com/g1augusto/breakout # Replace <your-repository-url> with the actual URL
+    cd breakout # Replace <your-repository-directory> with the folder name
     ```
 
 2.  **Install the dependencies:**
@@ -50,8 +56,13 @@ To run BreakoutGL, you'll need Python and the following libraries:
     ```bash
     python -m venv venv
     source venv/bin/activate  # On Windows use `venv\Scripts\activate`
-    pip install pygame moderngl PyGLM
+    pip install requirements.txt
     ```
+
+### Binaries
+
+In the release section<br>
+https://github.com/g1augusto/breakout/releases
 
 ---
 
@@ -59,9 +70,13 @@ To run BreakoutGL, you'll need Python and the following libraries:
 
 Once the dependencies are installed and you are in the project's root directory, execute the main game script:
 
+### From cloned source
 ```bash
 python breakoutgl.py
 ```
+
+### From compiled binaries
+Launch <b>breakout.exe</b> (Windows) or <b>breakout.bin</b> (Linux) 
 
 -----
 
@@ -137,5 +152,5 @@ The game uses several GLSL shader programs embedded directly within the Python s
 
 ## License 📄
 
-This project is licensed under the **MIT License**. See the [LICENSE](https://www.google.com/search?q=LICENSE) file for details.
+This project is licensed under the **MIT License**. See the [LICENSE](https://github.com/g1augusto/breakout?tab=MIT-1-ov-file#MIT-1-ov-file) file for details.
 
