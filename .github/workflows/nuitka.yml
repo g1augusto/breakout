@@ -44,7 +44,7 @@ jobs:
             --onefile \
             --company-name="Giovanni Augusto" \
             --product-name=BreakoutGL \
-            --file-version="$FORMATTED_VERSION"
+            --file-version="$FORMATTED_VERSION" \
             --assume-yes-for-downloads
           #python -m nuitka --onefile --output-dir=dist your_main_script.py # Replace 'your_main_script.py'
           # Add any other Nuitka options you need
