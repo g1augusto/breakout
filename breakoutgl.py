@@ -1,3 +1,10 @@
+'''
+    Main and only file for breakout, this was done in purpose
+    portion of the code was generated with GeminiAI's aid
+    namely:
+        -   Enhanced ball physics on the paddle (not on bricks...)
+        -   Resource path location function for distribution packages(nuitka or pyinstaller)
+'''
 from enum import Enum # to define movement enum class
 import sys
 import struct
