@@ -1,0 +1,5 @@
+-i https://pypi.org/simple
+glcontext>=3.0.0
+moderngl>=5.12.0; python_version >= '3.7'
+pygame>=2.6.1; python_version >= '3.6'
+pyglm>=2.8.2
