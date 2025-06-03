@@ -33,6 +33,7 @@ jobs:
 
       - name: Compile with Nuitka
         run: |
+          FORMATTED_VERSION=$(echo "${{ github.ref_name }}" | sed 's/^v//')
           python -m nuitka breakoutgl.py \
             --windows-icon-from-ico=assets/breakout_window_icon.png \
             --include-data-dir=assets=assets \
@@ -43,7 +44,7 @@ jobs:
             --onefile \
             --company-name="Giovanni Augusto" \
             --product-name=BreakoutGL \
-            --file-version="${{ github.ref_name }}"
+            --file-version="$FORMATTED_VERSION"
           #python -m nuitka --onefile --output-dir=dist your_main_script.py # Replace 'your_main_script.py'
           # Add any other Nuitka options you need
           # For example, to name the output file:
