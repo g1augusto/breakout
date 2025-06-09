@@ -1515,9 +1515,7 @@ class Game:
     def ActivatePowerUp(self,powerup:PowerUP):
         match powerup.Type:
             case "speed":
-                print(f"before {self.Ball.Velocity}")
                 self.Ball.Velocity *= SPEED_POWERUP_FACTOR
-                print(f"after {self.Ball.Velocity}")
             case "sticky":
                 self.Ball.Sticky = True
                 self.Player.Color = glm.vec3(1.0,0.5,1.0)
