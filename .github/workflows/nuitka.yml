@@ -64,8 +64,8 @@ jobs:
           # echo "ASSET_PATH=dist/BreakoutGame.bin" >> $GITHUB_ENV
 
           # For Windows (if runs-on: windows-latest)
-          echo "ASSET_PATH=./nuitka_dist/breakoutgl.exe" >> $GITHUB_ENV
-          echo "ASSET_NAME=breakoutgl.exe" >> $GITHUB_ENV
+          echo "ASSET_PATH=./nuitka_dist/breakoutgl_v$FORMATTED_VERSION.exe" >> $GITHUB_ENV
+          echo "ASSET_NAME=breakoutgl_v$FORMATTED_VERSION.exe" >> $GITHUB_ENV
 
           # For macOS (if runs-on: macos-latest)
           # echo "ASSET_PATH=dist/your_main_script.app" >> $GITHUB_ENV # Or .bin if not creating an app bundle
