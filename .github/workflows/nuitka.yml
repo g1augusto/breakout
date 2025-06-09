@@ -48,6 +48,7 @@ jobs:
             --assume-yes-for-downloads \
             --include-data-files="$pythonLocation/Lib/site-packages/pygame/libjpeg-9.dll"=libjpeg-9.dll \
             --windows-disable-console
+            --output-filename=breakoutgl_v$FORMATTED_VERSION.exe
           #python -m nuitka --onefile --output-dir=dist your_main_script.py # Replace 'your_main_script.py'
           # Add any other Nuitka options you need
           # For example, to name the output file:

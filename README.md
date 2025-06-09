@@ -23,6 +23,7 @@ BreakoutGL is a classic Breakout arcade game implemented in Python. It leverages
     * Pad (increases paddle size)
     * Confuse (visual screen effect)
     * Chaos (visual screen effect)
+* **Hard bricks** that reuquires multiple hit to be broken
 * **Sound effects** and background music.
 * **Resizable game window** with dynamic scaling of game elements.
 * Game states: Main Menu, Active Gameplay, and Win Screen.
@@ -30,7 +31,10 @@ BreakoutGL is a classic Breakout arcade game implemented in Python. It leverages
 * Embedded GLSL shaders for sprites, particles, text, and post-processing.
 
 
----
+## Changelog 📃
+* v1.0.1  **Hard bricks** that reuquires multiple hit to be broken
+
+
 
 ## Dependencies 🛠️
 
@@ -41,7 +45,7 @@ To run BreakoutGL, you'll need Python and the following libraries:
 * **PyGLM (glm):** A Python implementation of OpenGL Mathematics, used for vector and matrix operations.
 
 ---
-
+  
 ## Installation ⚙️
 
 ### From source

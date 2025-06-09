@@ -412,7 +412,7 @@ class SpriteRenderer():
 
 class GameObject():
     def __init__(self,sprite:moderngl.Context.texture,position:glm.vec2 = glm.vec2(0.0,0.0), size:glm.vec2 = glm.vec2(1.0,1.0), velocity:glm.vec2 = glm.vec2(0.0,0.0),
-                 color:glm.vec3 = glm.vec3(1.0,1.0,1.0), rotation:float = 0.0,issolid:bool = False,destroyed:bool = False
+                 color:glm.vec3 = glm.vec3(1.0,1.0,1.0), rotation:float = 0.0,issolid:bool = False,destroyed:bool = False, hitPoints:int = 1
                   ):
         self.Position:glm.vec2 = position
         # size and are created as a new objects so it does not reference the initial default attribute with subsequent modifications in-game
@@ -423,6 +423,7 @@ class GameObject():
         self.IsSolid:bool = issolid
         self.Destroyed:bool = destroyed
         self.Sprite:moderngl.Context.texture = sprite
+        self.HitPoints = hitPoints
     
     def Draw(self,renderer:SpriteRenderer):
         renderer.DrawSprite(self.Sprite,self.Position,self.Size,self.Rotation,self.Color)
@@ -763,27 +764,37 @@ class GameLevel():
                 size = glm.vec2(self.unit_width,self.unit_height)
                 match element:
                     case 1:
-                        color=glm.vec3(0.8, 0.8, 0.7)
+                        color=glm.vec3(0.8, 0.8, 0.7) # GRAY
                         issolid = True
                         texture = self.TextureManager["block_solid"]
+                        hitPoints = 1
                     case 2:
-                        color=glm.vec3(0.2, 0.6, 1.0)
+                        color=glm.vec3(0.2, 0.6, 1.0) # BLUE
                         issolid = False
                         texture = self.TextureManager["block"]
+                        hitPoints = 1
                     case 3:
-                        color=glm.vec3(0.0, 0.7, 0.0)
+                        color=glm.vec3(0.0, 0.7, 0.0) # GREEN
                         issolid = False
                         texture = self.TextureManager["block"]
+                        hitPoints = 1
                     case 4:
-                        color=glm.vec3(0.8, 0.8, 0.4)
+                        color=glm.vec3(0.8, 0.8, 0.4) # CYAN
                         issolid = False
                         texture = self.TextureManager["block"]
+                        hitPoints = 1
                     case 5:
-                        color=glm.vec3(1.0, 0.5, 0.0)
+                        color=glm.vec3(1.0, 0.5, 0.0) # ORANGE
                         issolid = False
                         texture = self.TextureManager["block"]
-                if element in [1,2,3,4,5]:
-                    obj = GameObject(texture,position=position,size=size,color=color,issolid=issolid)
+                        hitPoints = 1
+                    case 6:
+                        color=glm.vec3(1.0, 0.0, 1.0) # PURPLE
+                        issolid = False
+                        texture = self.TextureManager["block"]
+                        hitPoints = 2
+                if element in [1,2,3,4,5,6]:
+                    obj = GameObject(texture,position=position,size=size,color=color,issolid=issolid,hitPoints=hitPoints)
                     self.Bricks.append(obj)
 
     def Resize(self,levelWidth:int,levelHeight:int):
@@ -1124,6 +1135,7 @@ class Game:
         self.TextureManager["face"] = "./assets/awesomeface.png"
         self.TextureManager["background"] = "./assets/background.jpg"
         self.TextureManager["block"] = "./assets/block.png"
+        self.TextureManager["block_broken"] = "./assets/block_broken.png"
         self.TextureManager["block_solid"] = "./assets/block_solid.png"
         self.TextureManager["paddle"] = "./assets/paddle.png"
         # load particle texture
@@ -1374,7 +1386,11 @@ class Game:
                 collision:tuple = CheckCollision(self.Ball,brick)
                 if collision[0]:
                     if not brick.IsSolid:
-                        brick.Destroyed = True
+                        brick.HitPoints -= 1
+                        if brick.HitPoints <= 0:
+                            brick.Destroyed = True
+                        else:
+                            brick.Sprite = self.TextureManager["block_broken"]
                         self.SpawnPowerUps(brick)
                         self.audio["bleep"].play()
                     else:
@@ -1543,19 +1559,20 @@ class Game:
         confuseDuration = 5 * FRAMERATE_REFERENCE
         chaosDuration = 10 * FRAMERATE_REFERENCE
         padIncreaseDuration = 20 * FRAMERATE_REFERENCE
+        Position = glm.vec2(block.Position)
         
-        if ShouldSpawn(1): #35
-            self.PowerUps.append(PowerUP("speed",glm.vec3(0.5,0.5,1.0),speedDuration,block.Position,self.TextureManager["powerup_speed"]))
+        if ShouldSpawn(35): #35
+            self.PowerUps.append(PowerUP("speed",glm.vec3(0.5,0.5,1.0),speedDuration,Position,self.TextureManager["powerup_speed"]))
         if ShouldSpawn(65): #65
-            self.PowerUps.append(PowerUP("sticky",glm.vec3(1.0,0.5,1.0),stickyDuration,block.Position,self.TextureManager["powerup_sticky"]))
+            self.PowerUps.append(PowerUP("sticky",glm.vec3(1.0,0.5,1.0),stickyDuration,Position,self.TextureManager["powerup_sticky"]))
         if ShouldSpawn(55): #75
-            self.PowerUps.append(PowerUP("pass-through",glm.vec3(0.5,1.0,0.5),passthroughDuration,block.Position,self.TextureManager["powerup_passthrough"]))
+            self.PowerUps.append(PowerUP("pass-through",glm.vec3(0.5,1.0,0.5),passthroughDuration,Position,self.TextureManager["powerup_passthrough"]))
         if ShouldSpawn(35): #75
-            self.PowerUps.append(PowerUP("pad",glm.vec3(1.0,0.6,0.4),padIncreaseDuration,block.Position,self.TextureManager["powerup_increase"]))
+            self.PowerUps.append(PowerUP("pad",glm.vec3(1.0,0.6,0.4),padIncreaseDuration,Position,self.TextureManager["powerup_increase"]))
         if ShouldSpawn(15): #15
-            self.PowerUps.append(PowerUP("confuse",glm.vec3(1.0,0.3,0.3),confuseDuration,block.Position,self.TextureManager["powerup_confuse"]))
+            self.PowerUps.append(PowerUP("confuse",glm.vec3(1.0,0.3,0.3),confuseDuration,Position,self.TextureManager["powerup_confuse"]))
         if ShouldSpawn(15): #15
-            self.PowerUps.append(PowerUP("chaos",glm.vec3(0.9,0.25,0.25),chaosDuration,block.Position,self.TextureManager["powerup_chaos"]))
+            self.PowerUps.append(PowerUP("chaos",glm.vec3(0.9,0.25,0.25),chaosDuration,Position,self.TextureManager["powerup_chaos"]))
 
     def ResizePowerUps(self,width,height):
         global POWERUP_SIZE
