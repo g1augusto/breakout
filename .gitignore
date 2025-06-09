@@ -549,3 +549,4 @@ dist/breakoutgl/_internal/setuptools/_vendor/importlib_metadata-8.0.0.dist-info/
 dist/breakoutgl/_internal/setuptools/_vendor/jaraco/text/Lorem ipsum.txt
 pyinstall.cmd
 nuitka.cmd
+nuitka_dist/breakoutgl.dist/assets/block_broken.png
