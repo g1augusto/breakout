@@ -48,7 +48,7 @@ jobs:
             --assume-yes-for-downloads \
             --include-data-files="$pythonLocation/Lib/site-packages/pygame/libjpeg-9.dll"=libjpeg-9.dll \
             --windows-disable-console \
-            --output-filename=breakoutgl_v$FORMATTED_VERSION.exe
+            --output-filename=breakoutgl_${{ github.ref_name }}.exe
           #python -m nuitka --onefile --output-dir=dist your_main_script.py # Replace 'your_main_script.py'
           # Add any other Nuitka options you need
           # For example, to name the output file:
@@ -64,8 +64,8 @@ jobs:
           # echo "ASSET_PATH=dist/BreakoutGame.bin" >> $GITHUB_ENV
 
           # For Windows (if runs-on: windows-latest)
-          echo "ASSET_PATH=./nuitka_dist/breakoutgl_v$FORMATTED_VERSION.exe" >> $GITHUB_ENV
-          echo "ASSET_NAME=breakoutgl_v$FORMATTED_VERSION.exe" >> $GITHUB_ENV
+          echo "ASSET_PATH=./nuitka_dist/breakoutgl_${{ github.ref_name }}.exe" >> $GITHUB_ENV
+          echo "ASSET_NAME=breakoutgl_${{ github.ref_name }}.exe" >> $GITHUB_ENV
 
           # For macOS (if runs-on: macos-latest)
           # echo "ASSET_PATH=dist/your_main_script.app" >> $GITHUB_ENV # Or .bin if not creating an app bundle
