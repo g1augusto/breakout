@@ -30,6 +30,7 @@ PLAYER_SIZE = glm.vec2(100.0,20)
 INITIAL_PLAYER_VELOCITY = 10.0
 PLAYER_VELOCITY = 10.0
 INITIAL_BALL_VELOCITY = glm.vec2(5.0,-5.0)
+SPEED_POWERUP_FACTOR = 1.2
 BALL_VELOCITY = glm.vec2(5.0,-5.0)
 INITIAL_BALL_RADIUS = 12.5
 BALL_RADIUS = 12.5
@@ -1514,7 +1515,9 @@ class Game:
     def ActivatePowerUp(self,powerup:PowerUP):
         match powerup.Type:
             case "speed":
-                self.Ball.Velocity *= 1.2
+                print(f"before {self.Ball.Velocity}")
+                self.Ball.Velocity *= SPEED_POWERUP_FACTOR
+                print(f"after {self.Ball.Velocity}")
             case "sticky":
                 self.Ball.Sticky = True
                 self.Player.Color = glm.vec3(1.0,0.5,1.0)
@@ -1543,7 +1546,7 @@ class Game:
         chaosDuration = 10 * FRAMERATE_REFERENCE
         padIncreaseDuration = 20 * FRAMERATE_REFERENCE
         
-        if ShouldSpawn(35): #75
+        if ShouldSpawn(1): #35
             self.PowerUps.append(PowerUP("speed",glm.vec3(0.5,0.5,1.0),speedDuration,block.Position,self.TextureManager["powerup_speed"]))
         if ShouldSpawn(65): #65
             self.PowerUps.append(PowerUP("sticky",glm.vec3(1.0,0.5,1.0),stickyDuration,block.Position,self.TextureManager["powerup_sticky"]))
@@ -1606,7 +1609,7 @@ class Game:
                                 self.effects.Chaos = False
                         case "speed":
                             if not isOtherPowerUpActive(self.PowerUps,"speed"):
-                                self.Ball.Velocity = glm.vec2(BALL_VELOCITY)
+                                self.Ball.Velocity /= SPEED_POWERUP_FACTOR
                         case "pad":
                             if self.Player.Size.x > PLAYER_SIZE.x:
                                 self.Player.Size.x -= 50
