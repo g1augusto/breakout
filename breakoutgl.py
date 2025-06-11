@@ -805,7 +805,7 @@ class GameLevel():
         brick:GameObject
         for brick in self.Bricks:
             ratio = newSize / brick.Size
-            obj = GameObject(brick.Sprite,position=brick.Position*ratio,size=newSize,color=brick.Color,issolid=brick.IsSolid,destroyed=brick.Destroyed)
+            obj = GameObject(brick.Sprite,position=brick.Position*ratio,size=newSize,color=brick.Color,issolid=brick.IsSolid,destroyed=brick.Destroyed,hitPoints=brick.HitPoints)
             Bricks.append(obj)
         del self.Bricks
         self.Bricks = Bricks
